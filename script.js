@@ -30,6 +30,9 @@ async function handleSignup(event) {
         const data = await response.json();
         if (response.ok) {
             alert(data.message);
+
+            // Rediriger vers le formulaire de connexion
+            showForm('login');
         } else {
             alert(data.message || 'Erreur lors de l’inscription.');
         }
@@ -57,7 +60,7 @@ async function handleLogin(event) {
         if (response.ok) {
             alert(data.message);
 
-            // Afficher la page principale et dessiner la courbe
+            // Rediriger vers la page principale
             document.querySelector('form#login').style.display = 'none';
             document.querySelector('form#signup').style.display = 'none';
             document.querySelector('.tab').style.display = 'none';

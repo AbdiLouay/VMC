@@ -23,7 +23,6 @@ const db = mysql.createConnection({
     database: 'Connexion',  // Le nom de votre base de données
 });
 
-
 // Connecter à la base
 db.connect(err => {
     if (err) {
@@ -31,19 +30,6 @@ db.connect(err => {
         process.exit(1);
     }
     console.log('Connecté à la base de données MySQL.');
-});
-
-// Exemple de requête HTTP vers un autre serveur sur le port 80 (par exemple PHPMyAdmin)
-app.get('/api/external-data', async (req, res) => {
-    try {
-        // Exemple d'une requête vers un serveur sur le port 80 (ici phpMyAdmin)
-        const response = await axios.get('http://192.168.65.227/phpmyadmin/');
-        // Renvoi des données obtenues depuis le serveur externe.
-        res.json(response.data);
-    } catch (error) {
-        console.error('Erreur lors de la requête vers le serveur externe:', error);
-        res.status(500).json({ message: 'Erreur lors de la récupération des données externes' });
-    }
 });
 
 // Route pour l'inscription
@@ -72,7 +58,14 @@ app.post('/api/register', (req, res) => {
                 return res.status(500).json({ message: 'Erreur interne du serveur' });
             }
 
-            return res.status(201).json({ message: 'Utilisateur créé avec succès.' });
+            // Générer un token JWT après l'inscription
+            const token = jwt.sign({ nom }, 'votre-cle-secrete', { expiresIn: '1h' });
+
+            // Retourner le token au client
+            res.status(201).json({
+                message: 'Utilisateur créé avec succès.',
+                token: token, // Renvoie le token dans la réponse
+            });
         });
     });
 });
