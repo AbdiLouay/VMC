@@ -11,16 +11,19 @@ body {
     overflow: hidden;
 }
 
+/* Conteneur principal avec un fond flouté pour les formulaires */
 .container {
     width: 90%;
     max-width: 600px;
-    background: #fff;
+    background: rgba(255, 255, 255, 0.9);
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     animation: fadeIn 0.8s ease-in-out;
+    backdrop-filter: blur(10px); /* Appliquer un flou de fond */
 }
 
+/* Onglets pour basculer entre les formulaires */
 .tab {
     display: flex;
     justify-content: space-between;
@@ -47,6 +50,7 @@ body {
     transform: scale(1.05);
 }
 
+/* Formulaires */
 form {
     display: none;
     animation: fadeIn 0.5s ease-in-out;
@@ -98,6 +102,7 @@ form.active {
     background: linear-gradient(135deg, #5a7bf8, #9054e3);
 }
 
+/* Notifications */
 #notification-container {
     position: fixed;
     top: 20px;
@@ -106,7 +111,7 @@ form.active {
 }
 
 .notification {
-    background: #6e8efb;
+    background: #14af00;
     color: #fff;
     padding: 10px 15px;
     border-radius: 5px;
@@ -118,11 +123,26 @@ form.active {
     background: #e57373;
 }
 
+/* Section principale après connexion */
 #main-page {
     display: none;
     text-align: center;
 }
 
+#main-page h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+/* Image en arrière-plan */
+.image-banner img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Canvas */
 #curve-simulation {
     display: block;
     margin: 20px auto;
@@ -131,6 +151,26 @@ form.active {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Bouton de déconnexion */
+#logout-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+#logout-button:hover {
+    background: #a71d2a;
+}
+
+/* Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;

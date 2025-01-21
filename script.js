@@ -1,6 +1,6 @@
-const API_BASE_URL = 'http://192.168.65.227:3000/api'; // Adresse de votre serveur backend
+const API_BASE_URL = 'http://192.168.65.227:3000/api'; // Adresse de votre serveur backend 
 
-// Fonction pour afficher le formulaire sélectionné avec animation
+// Fonction pour afficher le formulaire sélectionné (Inscription ou Connexion)
 function showForm(formId) {
     const forms = document.querySelectorAll('form');
     const buttons = document.querySelectorAll('.tab button');
@@ -9,7 +9,7 @@ function showForm(formId) {
     buttons.forEach(button => button.classList.remove('active'));
 
     document.getElementById(formId).classList.add('active');
-    event.target.classList.add('active');
+    document.querySelector(`.tab button[onclick="showForm('${formId}')"]`).classList.add('active');
 }
 
 // Fonction pour afficher une notification
@@ -24,7 +24,7 @@ function showNotification(message, type = 'success') {
 
     setTimeout(() => {
         notification.remove();
-    }, 4000);
+    }, 4000); // 4 secondes
 }
 
 // Gérer le formulaire d'inscription
@@ -43,7 +43,8 @@ async function handleSignup(event) {
         const data = await response.json();
         if (response.ok) {
             showNotification(data.message, 'success');
-            showForm('login'); // Rediriger vers le formulaire de connexion
+            // Rediriger vers le formulaire de connexion
+            showForm('login');
         } else {
             showNotification(data.message || 'Erreur lors de l’inscription.', 'error');
         }
@@ -68,10 +69,11 @@ async function handleLogin(event) {
 
         const data = await response.json();
         if (response.ok) {
-            localStorage.setItem('token', data.token); // Stocker le token
+            // Stocker le token dans le stockage local
+            localStorage.setItem('token', data.token);
 
             showNotification(data.message, 'success');
-
+            
             // Passer à la page principale
             loadMainPage();
         } else {
@@ -83,40 +85,38 @@ async function handleLogin(event) {
     }
 }
 
+// Gérer la déconnexion
+function handleLogout() {
+    localStorage.removeItem('token'); // Supprimer le token du stockage local
+    location.reload(); // Recharger la page pour revenir à l'écran de connexion
+}
+
 // Charger la page principale après connexion
 function loadMainPage() {
-    // Masquer les éléments inutiles
     document.querySelector('form#login').style.display = 'none';
     document.querySelector('form#signup').style.display = 'none';
     document.querySelector('.tab').style.display = 'none';
+    document.getElementById('main-page').style.display = 'block';
 
-    // Afficher la page principale
-    const mainPage = document.getElementById('main-page');
-    mainPage.style.display = 'block';
-
-    // Appliquer une animation d'apparition
-    mainPage.classList.add('fade-in');
-    drawCurve();
+    drawCurve(); // Afficher la courbe simulée
 }
 
 // Fonction pour dessiner une courbe sinusoïdale dans le canvas
 function drawCurve() {
     const canvas = document.getElementById('curve-simulation');
     const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth * 0.8;
-    canvas.height = 300;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.beginPath();
-    ctx.moveTo(0, canvas.height / 2);
+    ctx.moveTo(0, 200);
 
     for (let x = 0; x <= canvas.width; x++) {
-        const y = canvas.height / 2 + 100 * Math.sin((x / canvas.width) * 4 * Math.PI);
+        const y = 200 + 100 * Math.sin((x / canvas.width) * 4 * Math.PI);
         ctx.lineTo(x, y);
     }
 
-    ctx.strokeStyle = '#007BFF';
+    ctx.strokeStyle = 'blue';
     ctx.lineWidth = 2;
     ctx.stroke();
 }
@@ -143,5 +143,5 @@ function checkAuth() {
     }
 }
 
-// Vérification du token au chargement
+// Appeler la fonction checkAuth au chargement de la page
 window.onload = checkAuth;

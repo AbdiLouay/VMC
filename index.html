@@ -3,17 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VMC - Inscription et Connexion</title>
+    <title>VMC</title>
     <link rel="stylesheet" href="styles.css"> <!-- Lien vers le fichier CSS -->
     <script src="script.js" defer></script> <!-- Lien vers le fichier JavaScript -->
 </head>
 <body>
     <!-- Conteneur principal pour l'ensemble de l'interface -->
     <div class="container">
-        <!-- Bannière contenant une image descriptive (peut être retirée ou remplacée si non nécessaire) -->
-        <div class="image-banner">
-            <img src="image" alt="Illustration représentant le thème de l'application">
-        </div>
 
         <!-- Onglets pour basculer entre les formulaires "Inscription" et "Connexion" -->
         <div class="tab">
@@ -55,6 +51,12 @@
     <!-- Section de la page principale, masquée par défaut -->
     <div id="main-page" style="display: none;">
         <h1>Simulation de Courbe</h1>
+        <!-- Image en arrière-plan floutée -->
+        <div class="image-banner">
+            <img src="image" alt="Illustration représentant le thème de l'application">
+        </div>
+        <!-- Bouton pour déconnecter -->
+        <button id="logout-button" onclick="handleLogout()">Se déconnecter</button>
         <!-- Canvas pour afficher une courbe sinusoïdale -->
         <canvas id="curve-simulation" width="800" height="400" style="border: 1px solid #000;"></canvas>
     </div>
