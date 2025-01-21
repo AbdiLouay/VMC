@@ -8,7 +8,6 @@ const cors = require('cors');
 const app = express();
 const PORT = 3000;
 
-
 // Activer CORS pour toutes les routes
 app.use(cors());
 
@@ -58,13 +57,22 @@ app.post('/api/register', (req, res) => {
                 return res.status(500).json({ message: 'Erreur interne du serveur' });
             }
 
-            // Générer un token JWT après l'inscription
+            // Générer un token JWT après l'insertion de l'utilisateur
             const token = jwt.sign({ nom }, 'votre-cle-secrete', { expiresIn: '1h' });
 
-            // Retourner le token au client
-            res.status(201).json({
-                message: 'Utilisateur créé avec succès.',
-                token: token, // Renvoie le token dans la réponse
+            // Mettre à jour la base de données avec le token généré
+            const updateQuery = 'UPDATE users SET token = ? WHERE id = ?';
+            db.query(updateQuery, [token, result.insertId], (err, resultUpdate) => {
+                if (err) {
+                    console.error('Erreur lors de l\'enregistrement du token :', err);
+                    return res.status(500).json({ message: 'Erreur interne du serveur' });
+                }
+
+                // Répondre au client avec le message de succès et le token
+                return res.status(201).json({
+                    message: 'Utilisateur créé avec succès.',
+                    token: token, // Renvoie le token dans la réponse
+                });
             });
         });
     });

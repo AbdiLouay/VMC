@@ -14,6 +14,22 @@ function showForm(formId) {
     event.target.classList.add('active');
 }
 
+// Fonction pour afficher une notification
+function showNotification(message, type = 'success') {
+    const container = document.getElementById('notification-container');
+
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+
+    container.appendChild(notification);
+
+    // Supprimer la notification après un certain temps
+    setTimeout(() => {
+        notification.remove();
+    }, 4000); // 4 secondes
+}
+
 // Gérer le formulaire d'inscription
 async function handleSignup(event) {
     event.preventDefault(); // Empêche le rechargement de la page
@@ -29,16 +45,14 @@ async function handleSignup(event) {
 
         const data = await response.json();
         if (response.ok) {
-            alert(data.message);
-
-            // Rediriger vers le formulaire de connexion
-            showForm('login');
+            showNotification(data.message, 'success');
+            showForm('login'); // Rediriger vers le formulaire de connexion
         } else {
-            alert(data.message || 'Erreur lors de l’inscription.');
+            showNotification(data.message || 'Erreur lors de l’inscription.', 'error');
         }
     } catch (error) {
         console.error('Erreur lors de la requête :', error);
-        alert('Une erreur est survenue.');
+        showNotification('Une erreur est survenue.', 'error');
     }
 }
 
@@ -58,20 +72,18 @@ async function handleLogin(event) {
 
         const data = await response.json();
         if (response.ok) {
-            alert(data.message);
-
-            // Rediriger vers la page principale
+            showNotification(data.message, 'success');
             document.querySelector('form#login').style.display = 'none';
             document.querySelector('form#signup').style.display = 'none';
             document.querySelector('.tab').style.display = 'none';
             document.getElementById('main-page').style.display = 'block';
             drawCurve();
         } else {
-            alert(data.message || 'Erreur lors de la connexion.');
+            showNotification(data.message || 'Erreur lors de la connexion.', 'error');
         }
     } catch (error) {
         console.error('Erreur lors de la requête :', error);
-        alert('Une erreur est survenue.');
+        showNotification('Une erreur est survenue.', 'error');
     }
 }
 
