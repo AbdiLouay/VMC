@@ -112,6 +112,25 @@ app.post('/api/login', (req, res) => {
         }
     });
 });
+// test
+app.get('/api/protected', (req, res) => {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+        return res.status(401).json({ message: 'Non autorisé' });
+    }
+
+    const token = authHeader.split(' ')[1]; // Récupère le token après "Bearer"
+
+    jwt.verify(token, 'votre-cle-secrete', (err, decoded) => {
+        if (err) {
+            return res.status(403).json({ message: 'Token invalide ou expiré' });
+        }
+
+        return res.status(200).json({ message: 'Bienvenue dans la zone protégée !' });
+    });
+});
+
 
 // Route protégée nécessitant une authentification
 app.get('/api/protected', (req, res) => {
