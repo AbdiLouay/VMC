@@ -38,7 +38,7 @@ app.get('/api/external-data', async (req, res) => {
     try {
         // Exemple d'une requête vers un serveur sur le port 80 (ici phpMyAdmin)
         const response = await axios.get('http://192.168.65.227/phpmyadmin/');
-        // Renvoi des données obtenues depuis le serveur externe
+        // Renvoi des données obtenues depuis le serveur externe.
         res.json(response.data);
     } catch (error) {
         console.error('Erreur lors de la requête vers le serveur externe:', error);
