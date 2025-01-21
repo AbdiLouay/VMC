@@ -1,87 +1,79 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
     font-family: Arial, sans-serif;
-    background-image: url('image/1325451.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    margin: auto; /* Pour supprimer les marges par défaut du corps */
-    padding: 63px; /* Pour supprimer les rembourrages par défaut du corps */
-}
-
-
-.login-container {
-    width: 300px;
-    margin: 200px auto;
-    background-color: whitesmoke;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-
-h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
-}
-
-h3 {
-    text-align: center;
-    margin-bottom: 100px;
-    color: #333;
-}
-
-input[type="text"],
-input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ffffff;
-    border-radius: 3px;
-}
-
-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-.error-message {
-    color: red;
-    text-align: center;
-    margin-top: 10px;
-}
-
-.container {
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: auto;
+    height: 100vh;
 }
-
-
-.clickable-image {
-    max-width: 300px;
-    max-height: 200px;
-    width: auto;
-    height: auto;
-    display: block;
-    margin: 0 auto;
+.container {
+    width: 90%;
+    max-width: 600px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
-#score-increment-button {
+.tab {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.tab button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: #ccc;
+    color: #000;
     cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+.tab button.active {
+    background: #007BFF;
+    color: #fff;
+}
+form {
+    display: none;
+}
+form.active {
+    display: block;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.form-group button {
+    width: 100%;
+    padding: 10px;
+    background: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.form-group button:hover {
+    background: #0056b3;
+}
+.image-banner {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.image-banner img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
 }

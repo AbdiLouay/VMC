@@ -1,137 +1,93 @@
-function getTokenFromCookies() {
-    const cookies = document.cookie.split(';');
-    for (const cookie of cookies) {
-        const [name, value] = cookie.trim().split('=');
-        if (name === 'token') {
-            return value;
-        }
-    }
-    return null;
+const API_BASE_URL = 'http://192.168.65.227:3000/api'; // Adresse de votre serveur backend
+
+// Fonction pour afficher le formulaire sélectionné (Inscription ou Connexion)
+function showForm(formId) {
+    const forms = document.querySelectorAll('form');
+    const buttons = document.querySelectorAll('.tab button');
+
+    // Cacher tous les formulaires
+    forms.forEach(form => form.classList.remove('active'));
+    buttons.forEach(button => button.classList.remove('active'));
+
+    // Afficher le formulaire sélectionné
+    document.getElementById(formId).classList.add('active');
+    event.target.classList.add('active');
 }
 
-const token = getTokenFromCookies();
+// Gérer le formulaire d'inscription
+async function handleSignup(event) {
+    event.preventDefault(); // Empêche le rechargement de la page
+    const username = document.getElementById('signup-name').value;
+    const password = document.getElementById('signup-password').value;
 
-function initialize() {
-    // Fonction pour récupérer le token depuis les cookies ou le stockage local
-    function getToken() {
-        const tokenFromCookies = getTokenFromCookies();
-        if (tokenFromCookies) {
-            return tokenFromCookies;
-        }
-        return localStorage.getItem('token');
-    }
-
-    // Fonction pour enregistrer le token dans les cookies et le stockage local
-    function saveToken(token) {
-        document.cookie = `token=${token}; path=/`;
-        localStorage.setItem('token', token);
-    }
-
-    // Fonction pour afficher le contenu après la connexion réussie
-    function showLoggedInContent() {
-        document.getElementById('login-form').style.display = 'none';
-        document.getElementById('login-success').style.display = 'block';
-    }
-
-    // Fonction pour effectuer une requête AJAX avec le token JWT
-    function fetchWithToken(url, options) {
-        const token = getToken();
-        if (!token) {
-            throw new Error('Token manquant');
-        }
-        console.log('Token utilisé :', token); // Ajouter ce log pour vérifier le token
-        options.headers = {
-            ...options.headers,
-            'Authorization': 'Bearer ' + token
-        };
-    
-        // Ajouter le cookie contenant le token aux en-têtes
-        options.headers['Cookie'] = `token=${token}`;
-    
-        return fetch(url, options);
-    }
-
-
-    // Vérifier si un token est présent dans les cookies ou le stockage local
-    if (token) {
-        // Si un token est présent, afficher le contenu de la page après la connexion réussie
-        showLoggedInContent();
-    } else {
-        // Sinon, afficher le formulaire de connexion
-        document.getElementById('login-form').style.display = 'block';
-        document.getElementById('login-success').style.display = 'none';
-    }
-
-    // Gestionnaire d'événements pour le bouton de connexion
-    document.getElementById('login-button').addEventListener('click', function() {
-        var nom = document.getElementById('nom').value;
-        var motDePasse = document.getElementById('mot-de-passe').value;
-
-        // Effectuer la requête de connexion
-        fetch('http://192.168.65.77:3000/api/login', {
+    try {
+        const response = await fetch(`${API_BASE_URL}/register`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                nom: nom,
-                motDePasse: motDePasse
-            })
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('La requête a échoué : ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Enregistrer le token dans les cookies et le stockage local
-            saveToken(data.token);
-            // Afficher le contenu de la page après la connexion réussie
-            showLoggedInContent();
-        })
-        .catch(error => {
-            console.error('Erreur lors de la connexion :', error);
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nom: username, motDePasse: password }),
         });
-    });
 
-    // Gestionnaire d'événements pour le bouton de déconnexion
-    document.getElementById("logout-button").addEventListener("click", function() {
-        // Supprimer le token des cookies et du stockage local
-        document.cookie = 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-        localStorage.removeItem('token');
-        // Recharger la page
-        window.location.reload();
-    });
-
-    // Gestionnaire d'événement pour l'image cliquable spécifique (cookieImage)
-    document.getElementById('cookieImage').addEventListener('click', function(){
-        var cookie = document.cookie;
-        console.log("Cookies : " + cookie);
-        // Effectuer une requête AJAX pour incrémenter le score
-        fetchWithToken('http://192.168.65.77:3000/api/increment-score', {
-            method: 'POST',
-            //credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-                Cookie: cookie
-            },
-            body: JSON.stringify({ increment: 1, token: getTokenFromCookies() })
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('La requête a échoué : ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Score mis à jour avec succès :', data);
-        })
-        .catch(error => {
-            console.error('Erreur lors de la mise à jour du score :', error);
-        });
-    });
+        const data = await response.json();
+        if (response.ok) {
+            alert(data.message);
+        } else {
+            alert(data.message || 'Erreur lors de l’inscription.');
+        }
+    } catch (error) {
+        console.error('Erreur lors de la requête :', error);
+        alert('Une erreur est survenue.');
+    }
 }
 
-// Appel de la fonction initialize immédiatement après sa définition
-initialize();
+// Gérer le formulaire de connexion
+async function handleLogin(event) {
+    event.preventDefault(); // Empêche le rechargement de la page
+    const username = document.getElementById('login-name').value;
+    const password = document.getElementById('login-password').value;
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nom: username, motDePasse: password }),
+            credentials: 'include', // Inclus les cookies
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            alert(data.message);
+
+            // Afficher la page principale et dessiner la courbe
+            document.querySelector('form#login').style.display = 'none';
+            document.querySelector('form#signup').style.display = 'none';
+            document.querySelector('.tab').style.display = 'none';
+            document.getElementById('main-page').style.display = 'block';
+            drawCurve();
+        } else {
+            alert(data.message || 'Erreur lors de la connexion.');
+        }
+    } catch (error) {
+        console.error('Erreur lors de la requête :', error);
+        alert('Une erreur est survenue.');
+    }
+}
+
+// Fonction pour dessiner une courbe sinusoïdale dans le canvas
+function drawCurve() {
+    const canvas = document.getElementById('curve-simulation');
+    const ctx = canvas.getContext('2d');
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.beginPath();
+    ctx.moveTo(0, 200);
+
+    for (let x = 0; x <= canvas.width; x++) {
+        const y = 200 + 100 * Math.sin((x / canvas.width) * 4 * Math.PI);
+        ctx.lineTo(x, y);
+    }
+
+    ctx.strokeStyle = 'blue';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+}

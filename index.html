@@ -3,46 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>VMC - Inscription et Connexion</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Lien vers le fichier CSS -->
+    <script src="script.js" defer></script> <!-- Lien vers le fichier JavaScript -->
 </head>
 <body>
-    <div class="login-container">
-        <h2>Bienvenue sur cookie-click</h2>
-        <div id="login-form">
-            <input type="text" id="nom" placeholder="Nom" required value=""> <!-- Utilisez "Nom" pour le champ de nom -->
-            <input type="password" id="mot-de-passe" placeholder="Mot de passe" required value=""> <!-- Utilisez "Mot de passe" pour le champ de mot de passe -->
-            <button id="login-button">Login</button>
-            <div style="width: 10px; display: inline-block;"></div> <!-- Espace de 20 pixels -->
-            <button onclick="window.location.href = 'inscription.html';">S'inscrire</button>
+    <div class="container">
+        <!-- Bannière contenant une image -->
+        <div class="image-banner">
+            <img src="image/VMC-double-flux.jpg" alt="Description de l'image">
         </div>
-        
-        <div id="login-success" style="display: none;">
-            <h2>Login réussi !</h2>
-            <div id="score">Score</div>
-            <!-- Bouton de déconnexion -->
-            <button id="logout-button">Se déconnecter</button>
-            
-            <!-- Ajoutez ici le contenu de la page qui sera affiché après la connexion réussie -->
-        
-             <h3>Touche le cookie</h3>
-             <div class="container" style="text-align: center;">
-                <img id="cookieImage" src="image/pngimg.com - cookie_PNG13683.png" alt="Image 1" class="clickable-image" style="max-width: 300px; max-height: 200px; margin: 0 auto;">
-                <div id="score-container" style="display: none;">
-                    
-                </div>
-            </div>
-        </div>
-            
-               
-             <!-- Ajoutez autant d'images que vous le souhaitez -->
-            </div>
-        </div>    
-       
-        <p id="error-message" class="error-message"></p>
-    </div>
-       
 
-    <script src="script.js"></script> <!-- Inclure le fichier JavaScript -->
+        <!-- Onglets pour basculer entre "Inscription" et "Connexion" -->
+        <div class="tab">
+            <button class="active" onclick="showForm('signup')">Inscription</button>
+            <button onclick="showForm('login')">Connexion</button>
+        </div>
+
+        <!-- Formulaire d'inscription -->
+        <form id="signup" class="active" onsubmit="handleSignup(event)">
+            <div class="form-group">
+                <label for="signup-name">Nom</label>
+                <input type="text" id="signup-name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="signup-password">Mot de passe</label>
+                <input type="password" id="signup-password" name="password" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">S'inscrire</button>
+            </div>
+        </form>
+
+        <!-- Formulaire de connexion -->
+        <form id="login" onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <label for="login-name">Nom</label>
+                <input type="text" id="login-name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="login-password">Mot de passe</label>
+                <input type="password" id="login-password" name="password" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Se connecter</button>
+            </div>
+        </form>
+
+        <!-- Contenu de la page principale, masqué par défaut -->
+        <div id="main-page" style="display: none;">
+            <h1>Simulation de Courbe</h1>
+            <!-- Canvas pour dessiner la courbe -->
+            <canvas id="curve-simulation" width="800" height="400" style="border:1px solid #000;"></canvas>
+        </div>
+    </div>
 </body>
 </html>
