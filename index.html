@@ -8,13 +8,14 @@
     <script src="script.js" defer></script> <!-- Lien vers le fichier JavaScript -->
 </head>
 <body>
+    <!-- Conteneur principal pour l'ensemble de l'interface -->
     <div class="container">
-        <!-- Bannière contenant une image -->
+        <!-- Bannière contenant une image descriptive (peut être retirée ou remplacée si non nécessaire) -->
         <div class="image-banner">
-            <img src="image/VMC-double-flux.jpg" alt="Description de l'image">
+            <img src="image" alt="Illustration représentant le thème de l'application">
         </div>
 
-        <!-- Onglets pour basculer entre "Inscription" et "Connexion" -->
+        <!-- Onglets pour basculer entre les formulaires "Inscription" et "Connexion" -->
         <div class="tab">
             <button class="active" onclick="showForm('signup')">Inscription</button>
             <button onclick="showForm('login')">Connexion</button>
@@ -24,11 +25,11 @@
         <form id="signup" class="active" onsubmit="handleSignup(event)">
             <div class="form-group">
                 <label for="signup-name">Nom</label>
-                <input type="text" id="signup-name" name="name" required>
+                <input type="text" id="signup-name" name="name" placeholder="Entrez votre nom" required>
             </div>
             <div class="form-group">
                 <label for="signup-password">Mot de passe</label>
-                <input type="password" id="signup-password" name="password" required>
+                <input type="password" id="signup-password" name="password" placeholder="Créez un mot de passe" required>
             </div>
             <div class="form-group">
                 <button type="submit">S'inscrire</button>
@@ -39,26 +40,26 @@
         <form id="login" onsubmit="handleLogin(event)">
             <div class="form-group">
                 <label for="login-name">Nom</label>
-                <input type="text" id="login-name" name="name" required>
+                <input type="text" id="login-name" name="name" placeholder="Entrez votre nom" required>
             </div>
             <div class="form-group">
                 <label for="login-password">Mot de passe</label>
-                <input type="password" id="login-password" name="password" required>
+                <input type="password" id="login-password" name="password" placeholder="Entrez votre mot de passe" required>
             </div>
             <div class="form-group">
                 <button type="submit">Se connecter</button>
             </div>
         </form>
-
-        <!-- Contenu de la page principale, masqué par défaut -->
-        <div id="main-page" style="display: none;">
-            <h1>Simulation de Courbe</h1>
-            <!-- Canvas pour dessiner la courbe -->
-            <canvas id="curve-simulation" width="800" height="400" style="border:1px solid #000;"></canvas>
-        </div>
     </div>
 
-    <!-- Conteneur pour les notifications -->
+    <!-- Section de la page principale, masquée par défaut -->
+    <div id="main-page" style="display: none;">
+        <h1>Simulation de Courbe</h1>
+        <!-- Canvas pour afficher une courbe sinusoïdale -->
+        <canvas id="curve-simulation" width="800" height="400" style="border: 1px solid #000;"></canvas>
+    </div>
+
+    <!-- Conteneur pour afficher les notifications -->
     <div id="notification-container"></div>
 </body>
 </html>

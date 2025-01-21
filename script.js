@@ -1,6 +1,6 @@
 const API_BASE_URL = 'http://192.168.65.227:3000/api'; // Adresse de votre serveur backend
 
-// Fonction pour afficher le formulaire sélectionné (Inscription ou Connexion)
+// Fonction pour afficher le formulaire sélectionné avec animation
 function showForm(formId) {
     const forms = document.querySelectorAll('form');
     const buttons = document.querySelectorAll('.tab button');
@@ -24,7 +24,7 @@ function showNotification(message, type = 'success') {
 
     setTimeout(() => {
         notification.remove();
-    }, 4000); // 4 secondes
+    }, 4000);
 }
 
 // Gérer le formulaire d'inscription
@@ -68,11 +68,10 @@ async function handleLogin(event) {
 
         const data = await response.json();
         if (response.ok) {
-            // Stocker le token dans le stockage local
-            localStorage.setItem('token', data.token);
+            localStorage.setItem('token', data.token); // Stocker le token
 
             showNotification(data.message, 'success');
-            
+
             // Passer à la page principale
             loadMainPage();
         } else {
@@ -86,30 +85,38 @@ async function handleLogin(event) {
 
 // Charger la page principale après connexion
 function loadMainPage() {
+    // Masquer les éléments inutiles
     document.querySelector('form#login').style.display = 'none';
     document.querySelector('form#signup').style.display = 'none';
     document.querySelector('.tab').style.display = 'none';
-    document.getElementById('main-page').style.display = 'block';
 
-    drawCurve(); // Afficher la courbe simulée
+    // Afficher la page principale
+    const mainPage = document.getElementById('main-page');
+    mainPage.style.display = 'block';
+
+    // Appliquer une animation d'apparition
+    mainPage.classList.add('fade-in');
+    drawCurve();
 }
 
 // Fonction pour dessiner une courbe sinusoïdale dans le canvas
 function drawCurve() {
     const canvas = document.getElementById('curve-simulation');
     const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth * 0.8;
+    canvas.height = 300;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.beginPath();
-    ctx.moveTo(0, 200);
+    ctx.moveTo(0, canvas.height / 2);
 
     for (let x = 0; x <= canvas.width; x++) {
-        const y = 200 + 100 * Math.sin((x / canvas.width) * 4 * Math.PI);
+        const y = canvas.height / 2 + 100 * Math.sin((x / canvas.width) * 4 * Math.PI);
         ctx.lineTo(x, y);
     }
 
-    ctx.strokeStyle = 'blue';
+    ctx.strokeStyle = '#007BFF';
     ctx.lineWidth = 2;
     ctx.stroke();
 }
@@ -136,5 +143,5 @@ function checkAuth() {
     }
 }
 
-// Appeler la fonction checkAuth au chargement de la page
+// Vérification du token au chargement
 window.onload = checkAuth;
