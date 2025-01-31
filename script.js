@@ -1,5 +1,5 @@
 const API_BASE_URL = 'http://192.168.65.227:3000/api'; // Adresse de votre serveur backend 
-
+//
 // Fonction pour afficher le formulaire sélectionné (Inscription ou Connexion)
 function showForm(formId) {
     const forms = document.querySelectorAll('form');

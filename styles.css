@@ -22,7 +22,7 @@ body {
     animation: fadeIn 0.8s ease-in-out;
     backdrop-filter: blur(10px); /* Appliquer un flou de fond */
 }
-
+/* Onglets pour basculer entre les formulaires */
 /* Onglets pour basculer entre les formulaires */
 .tab {
     display: flex;
