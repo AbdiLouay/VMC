@@ -172,6 +172,25 @@ app.post('/api/login', [
     });
 });
 
+
+// Route pour envoyer des données de capteur aléatoires
+app.get('/api/capteur', (req, res) => {
+    const generateRandomData = () => ({
+        temperature: (Math.random() * (30 - 15) + 15).toFixed(2), // Entre 15 et 30°C
+        humidite: (Math.random() * (100 - 30) + 30).toFixed(2), // Entre 30% et 100%
+        pression: (Math.random() * (1100 - 900) + 900).toFixed(2) // Entre 900 et 1100 hPa
+    });
+
+    const data = {
+        capteur_id: Math.floor(Math.random() * 1000),
+        valeurs: generateRandomData(),
+        timestamp: new Date().toISOString()
+    };
+
+    console.log('Données envoyées:', data);
+    res.json(data);
+});
+
 // Lancer le serveur
 app.listen(PORT, () => {
     console.log(`Serveur backend en écoute sur http://192.168.65.227:${PORT}`);
